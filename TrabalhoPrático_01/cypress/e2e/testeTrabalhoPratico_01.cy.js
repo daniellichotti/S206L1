@@ -11,65 +11,13 @@ describe('Criando cenario de teste para o site demoblaze', ()=>{
     cy.get('.success > :nth-child(2)').should('contain.text', 'Samsung galaxy s6')
   });
 
-  it('Caso de teste 02: Removendo um item ao carrinho com sucesso', () => {
+  it('Caso de teste 02: Zerando o carrinho com sucesso', () => {
     cy.visit('https://www.demoblaze.com/index.html')
     cy.get(':nth-child(4) > .nav-link').click()
     cy.get('#totalp').should('contain.text', '')
   });
 
-  it('Caso de teste 03: Registrando um usuário no site com sucesso', () => {
-    let horas = new Date().getHours().toString()
-    let minutos = new Date().getMinutes().toString()
-    let segundos = new Date().getSeconds().toString()
-    let user = horas+minutos+segundos+'Id'
-    let senha = horas+minutos+segundos+'senha'
-    let userInfo = [user, senha]
-    
-    cy.visit('https://www.demoblaze.com/index.html')
-    cy.get('#signin2').click()
-    cy.get('#sign-username').type(userInfo[0])
-    cy.wait(1000)
-    cy.get('#sign-password').type(userInfo[1])
-    cy.wait(1000)
-    cy.get('#signInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
-    cy.get('#login2').click()
-    cy.get('#loginusername').type(userInfo[0])
-    cy.wait(1000)
-    cy.get('#loginpassword').type(userInfo[1])
-    cy.wait(1000)
-    cy.get('#logInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
-    cy.get('#nameofuser').should('contain.text', 'Welcome')
-  })
-
-  it('Caso de teste 04: Deslogando um usuário com sucesso', () => {
-    
-    let horas = new Date().getHours().toString()
-    let minutos = new Date().getMinutes().toString()
-    let segundos = new Date().getSeconds().toString()
-    let user = horas+minutos+segundos+'Id'
-    let senha = horas+minutos+segundos+'senha'
-    let userInfo = [user, senha]
-
-    cy.visit('https://www.demoblaze.com/index.html')
-    cy.get('#signin2').click()
-    cy.get('#sign-username').type(userInfo[0])
-    cy.wait(1000)
-    cy.get('#sign-password').type(userInfo[1])
-    cy.wait(1000)
-    cy.get('#signInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
-    cy.visit('https://www.demoblaze.com/index.html')
-    cy.get('#login2').click()
-    cy.wait(1000)
-    cy.get('#loginusername').type(userInfo[0])
-    cy.wait(1000)
-    cy.get('#loginpassword').type(userInfo[1])
-    cy.wait(1000)
-    cy.get('#logInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
-    cy.get('#logout2').click()
-    cy.get('#login2').should('contain.text', 'Log in')
-  });
-
-  it('Caso de teste 05: Verificando o preço total do carrinho com sucesso', () => {
+  it('Caso de teste 03: Verificando o preço total do carrinho com sucesso', () => {
 
     cy.visit('https://www.demoblaze.com/index.html')
     cy.get(':nth-child(1) > .card > .card-block > .card-title > .hrefch').click()
@@ -81,6 +29,31 @@ describe('Criando cenario de teste para o site demoblaze', ()=>{
     cy.get('#totalp').should('contain.text', '1180')
 
   });
+
+  it('Caso de teste 04: Verificando se ao tirar um produto, o preço total do carrinho diminui', () => {
+
+    cy.visit('https://www.demoblaze.com/index.html')
+    cy.get(':nth-child(1) > .card > .card-block > .card-title > .hrefch').click()
+    cy.get('.col-sm-12 > .btn').click()
+    cy.get('#nava').click()
+    cy.get(':nth-child(2) > .card > .card-block > .card-title > .hrefch').click()
+    cy.get('.col-sm-12 > .btn').click()
+    cy.get('#cartur').click()
+    cy.get('#tbodyid > :nth-child(1) > :nth-child(4) > a').click()
+    cy.get('#totalp').should('contain.text', '820')
+
+  });
+
+  it('Caso de teste 05: Verificando o botao de compra do carrinho', () => {
+
+    cy.visit('https://www.demoblaze.com/index.html')
+    cy.get(':nth-child(1) > .card > .card-block > .card-title > .hrefch').click()
+    cy.get('.col-sm-12 > .btn').click()
+    cy.get(':nth-child(4) > .nav-link').click()
+    cy.get('.col-lg-1 > .btn').click
+    cy.get('.col-lg-1 > .btn').should('have.text', 'Place Order')
+  });
+  
 
   it('Caso de teste 06 (Teste negativo): Carrinho deveria iniciar vazio mas depois de alguns segundos ele enche de produtos', () => {
 

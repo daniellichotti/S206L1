@@ -21,8 +21,16 @@ Scenario: Testando retorno pikachu e verificando o JSON.
     And match response.name == "pikachu"
     And match response.id == 25
 
+Scenario: Testando retorno charizard e verificando o JSON.
+    Given url url_base
+    And path '/pokemon/charizard'
+    When method get
+    Then status 200
+    And match response.name == "charizard"
+    And match response.id == 6
 
-Scenario: Testando retorno pokemon Rede entrando em um dos elementos do array de idiomas e testando retorno JSON
+
+Scenario: Testando retorno pokemon Red e entrando em um dos elementos do array de idiomas e testando retorno JSON
     Given url url_base
     And path '/version/1/'
     When method get
@@ -34,3 +42,16 @@ Scenario: Testando retorno pokemon Rede entrando em um dos elementos do array de
     Then status 200
     And match response.name == "es"
     And match response.id == 7
+
+Scenario: Testando retorno pokemon Red e entrando em um dos elementos do array de idiomas e testando retorno JSON
+    Given url url_base
+    And path '/version/1/'
+    When method get
+    Then status 200
+    And def idioma = $.names[3].language.url
+    And print idioma
+    And url idioma
+    When method get
+    Then status 200
+    And match response.name == "fr"
+    And match response.id == 5
